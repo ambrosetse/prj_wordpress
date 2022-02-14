@@ -1,0 +1,33 @@
+version: '2'
+services:
+  web:
+    build: .
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - 8080:80
+    links:
+      - db
+    depends_on:
+      - db
+      - admin
+  admin:
+    image: phpmyadmin
+    ports:
+      - 8081:80
+    links:
+      - db
+    depends_on:
+      - db
+  db:
+    image: hypriot/rpi-mysql
+    volumes:
+      - ./data/db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123qwe
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=ambrose
+      - MYSQL_PASSWORD=123qwe
+
